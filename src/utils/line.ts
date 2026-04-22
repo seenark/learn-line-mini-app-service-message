@@ -23,18 +23,24 @@ class LINE {
         return data.access_token;
     }
 
-    async issueServiceNotiToken(headers, liffAccessToken) {
+    async issueServiceNotiToken(
+        headers: Record<string, string>,
+        liffAccessToken: string,
+    ) {
         const url = `${LINE_API}/message/v3/notifier/token`;
         const response = await fetch(url, {
             method: "POST",
             headers,
             body: JSON.stringify({ liffAccessToken }),
         });
-        const data = await response.json();
+        const data = (await response.json()) as { notificationToken: string };
         return data.notificationToken;
     }
 
-    async sendServiceMessage(headers, notificationToken) {
+    async sendServiceMessage(
+        headers: Record<string, string>,
+        notificationToken: string,
+    ) {
         const payload = {
             templateName: "couponnoti_s_c_th",
             params: { btn1_url: "https://linedevth.line.me" },
